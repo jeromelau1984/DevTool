@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lejia.devtool"
+    android:sharedUserId="android.uid.system" >
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_EMERGENCY_BROADCAST" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+
+    <!-- google jb.mr1 patch -->
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    
+    <application
+        android:name="LauncherApplication"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+
+        <service android:name=".DevService"
+            android:exported="true" />
+
+        <service android:name=".VirusKillerService"
+            android:exported="true" />
+
+        <service android:name=".DumpLogService"
+            android:exported="true" />
+
+        <service android:name=".upload.UploadDumpLogService"
+            android:exported="true" />
+        
+        <service android:name=".IpAddrNotifier"
+            android:exported="true" />
+        
+        <receiver android:name="com.lejia.devtool.MyReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_DUMP_LOG" />
+            </intent-filter>
+            <intent-filter android:priority="999999" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+			<intent-filter>
+                <action android:name="android.intent.action.ACTION_DUMP_SYS_LOG" />
+            </intent-filter>
+        </receiver>
+		<receiver android:name="com.lejia.devtool.SMSReceiver" 
+		  android:enabled="true">
+            <intent-filter android:priority="800">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.lejia.download.EXEC" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.lejia.applayer.rc" />
+            </intent-filter>
+        </receiver>
+        
+    </application>
+
+</manifest>
